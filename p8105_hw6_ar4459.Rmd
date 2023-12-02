@@ -218,9 +218,25 @@ bw_data =
   drop_na()
 ```
 
-Next, I propose a linear model. I chose to include variables that are associated with birthweight for my modeling process.. These variables are delwt, gaweeks, pnumlbw, ppwt, and wtgain.
+Next, I propose a linear model. I chose to include variables that are associated with birthweight for my modeling process. These variables are delwt, gaweeks, pnumlbw, ppwt, and wtgain.
 ```{r}
 #propose a linear regression model
 linear_mod = lm(bwt ~ delwt + gaweeks + pnumlbw + ppwt + wtgain , data = bw_data) 
-
 ```
+
+
+Next, I use modelr::add_predictions and modelr::add_residuals to calculate and then plot the predicted values against the residual values
+```{r}
+#plot predictions (fitted) and residual values 
+bw_data  |> 
+  modelr::add_predictions(linear_mod) |>
+  modelr::add_residuals(linear_mod) |> 
+  ggplot(aes(x = pred, y = resid)) + 
+  geom_point() 
+```
+
+
+
+
+
+
