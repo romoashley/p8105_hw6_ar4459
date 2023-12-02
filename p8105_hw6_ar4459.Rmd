@@ -244,6 +244,45 @@ model_one = lm(bwt ~ blength + gaweeks, data = bw_data)
 model_two = lm(bwt ~ bhead + blength + babysex + bhead*blength + bhead*babysex + blength*babysex + bhead*blength*babysex, data = bw_data)
 ```
 
+Cross Validation 
+```{r}
+#use crosv_mc to do the crossvaludation on the train and test 
+cv_df = 
+  bw_data |> 
+  crossv_mc(n = 100) |> 
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble)
+  )
+
+# cross validation on three different models
+cv_results =
+  cv_df|> 
+  mutate(
+    linear_mod = map(train, ~lm(bwt ~ delwt + gaweeks + pnumlbw + ppwt + wtgain, data = .x)),
+    model_one = map(train, ~lm(bwt ~ blength + gaweeks,  data = .x)),
+    model_two = map(train, ~lm(bwt ~ bhead + blength + babysex + bhead*blength + bhead*babysex + blength*babysex + bhead*blength*babysex, data = .x))) |> 
+  mutate(
+    rmse_linear = map2_dbl(linear_mod, test, \(mod, df) rmse(mod, df)),
+    rmse_model_one = map2_dbl(model_one, test, \(mod, df) rmse(mod, df)),
+    rmse_model_two = map2_dbl(model_two, test, \(mod, df) rmse(mod, df))
+  ) 
+
+cv_results_rmse =
+  cv_results |> 
+  select(.id, rmse_linear, rmse_model_one, rmse_model_two) |> 
+  pivot_longer(
+    rmse_linear:rmse_model_two,
+    names_to = "model",
+    names_prefix = "rmse_",
+    values_to = "rmse") 
+
+# plot of rmse values for linear model, model one, and model two
+cv_results_rmse |> 
+  group_by(model) |> 
+  ggplot(aes(x = model, y = rmse)) +
+  geom_violin()
+```
 
 
 
