@@ -187,3 +187,24 @@ boot_results_beta |>
     y = "density",
     title = "Distribution of log of beta1*beta2")
 ```
+
+Using the quantile function, I calculate the 95% confidence interval for the log(beta1*beta2) and the r squared.
+```{r}
+#95% confidence interval for r square
+r_ci =
+  boot_results_r |> 
+  summarize(
+    ci_lower_est = quantile(r_squared, 0.025),
+    ci_upper_est = quantile(r_squared, 0.0975)) |> 
+  knitr::kable(digits = 2)
+
+#95% confidence interval for log(beta1*beta2)
+log_ci =
+  boot_results_beta |> 
+  summarize(
+    ci_lower_est = quantile(log_betas, 0.025),
+    ci_upper_est = quantile(log_betas, 0.0975)) |> 
+  knitr::kable(digits = 2)
+```
+
+
