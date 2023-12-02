@@ -284,7 +284,7 @@ cv_results_rmse |>
   geom_violin()
 ```
 
-
+A lower rmse indicates a better model. According the plot, the best model is model_two since it had the lowest rmse value. 
 
 
 
