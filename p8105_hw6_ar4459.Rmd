@@ -217,3 +217,10 @@ bw_data =
   read_csv("data/birthweight.csv") |> 
   drop_na()
 ```
+
+Next, I propose a linear model. I chose to include variables that are associated with birthweight for my modeling process.. These variables are delwt, gaweeks, pnumlbw, ppwt, and wtgain.
+```{r}
+#propose a linear regression model
+linear_mod = lm(bwt ~ delwt + gaweeks + pnumlbw + ppwt + wtgain , data = bw_data) 
+
+```
