@@ -106,7 +106,6 @@ model_results |>
 ```
 
 
-## Problem 2
 ### Problem 2
 ```{r}
 weather_df = 
@@ -122,4 +121,12 @@ weather_df =
   select(name, id, everything())
 ```
 
+First, I created a bootstrap function. 
+```{r}
+# bootstrap function 
+boot_sample = function(df) {
+  
+  sample_frac(df, replace = TRUE)
+}
+```
 
