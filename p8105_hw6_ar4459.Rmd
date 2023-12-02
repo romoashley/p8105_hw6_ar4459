@@ -235,6 +235,16 @@ bw_data  |>
   geom_point() 
 ```
 
+Here, I listed the two models according to the homework description.
+```{r}
+#model 1
+model_one = lm(bwt ~ blength + gaweeks, data = bw_data)
+
+#model 2
+model_two = lm(bwt ~ bhead + blength + babysex + bhead*blength + bhead*babysex + blength*babysex + bhead*blength*babysex, data = bw_data)
+```
+
+
 
 
 
