@@ -208,3 +208,12 @@ log_ci =
 ```
 
 
+### Problem 3
+
+First, I load the data and drop any missing values. 
+```{r}
+#data cleaning
+bw_data = 
+  read_csv("data/birthweight.csv") |> 
+  drop_na()
+```
